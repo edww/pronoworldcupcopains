@@ -1,99 +1,37 @@
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#101827" />
-  <title>Prono World Cup Copains</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <div>
-      <p class="eyebrow">Pronos entre copains</p>
-      <h1>World Cup Copains</h1>
-    </div>
-    <button id="installBtn" hidden>Installer</button>
-  </header>
-
-  <nav class="tabs">
-    <button class="tab active" data-view="matches">Matchs</button>
-    <button class="tab" data-view="pronostics">Pronos</button>
-    <button class="tab" data-view="ranking">Classement</button>
-    <button class="tab" data-view="settings">Données</button>
-  </nav>
-
-  <main>
-    <section id="matches" class="view active">
-      <div class="card">
-        <h2>Ajouter un match</h2>
-        <form id="matchForm" class="grid">
-          <input id="teamA" placeholder="Équipe A" required />
-          <input id="teamB" placeholder="Équipe B" required />
-          <input id="matchDate" type="datetime-local" />
-          <button type="submit">Ajouter</button>
-        </form>
-      </div>
-      <div id="matchList"></div>
-    </section>
-
-    <section id="pronostics" class="view">
-      <div class="card">
-        <h2>Ajouter un prono</h2>
-        <form id="pickForm" class="grid">
-          <input id="playerName" placeholder="Nom du copain" required />
-          <select id="matchSelect" required></select>
-          <div class="score-row">
-            <input id="pickA" type="number" min="0" placeholder="Score A" required />
-            <input id="pickB" type="number" min="0" placeholder="Score B" required />
-          </div>
-          <button type="submit">Enregistrer</button>
-        </form>
-      </div>
-      <div id="pickList"></div>
-    </section>
-
-    <section id="ranking" class="view">
-      <div class="card">
-        <h2>Règles</h2>
-        <p>Score exact : 3 pts · Bon vainqueur ou nul : 1 pt · Mauvais résultat : 0 pt.</p>
-      </div>
-      <div id="rankingList"></div>
-    </section>
-
-    <section id="settings" class="view">
-      <div class="card">
-        <h2>Sauvegarde</h2>
-        <button id="exportBtn">Exporter les données</button>
-        <label class="fileLabel">Importer JSON<input id="importFile" type="file" accept="application/json" /></label>
-        <button id="resetBtn" class="danger">Tout effacer</button>
-      </div>
-      <div class="card">
-        <h2>Important</h2>
-        <p>Cette V1 stocke les données sur ce téléphone. Pour une vraie ligue partagée entre copains, il faudra brancher une base en ligne.</p>
-      </div>
-    </section>
-  </main>
-
-  <template id="matchTemplate">
-    <article class="card match-card">
-      <div class="row between">
-        <div>
-          <h3></h3>
-          <p class="muted date"></p>
-        </div>
-        <button class="small delete">Supprimer</button>
-      </div>
-      <div class="resultBox">
-        <span>Résultat réel</span>
-        <input class="realA" type="number" min="0" placeholder="A" />
-        <input class="realB" type="number" min="0" placeholder="B" />
-        <button class="small saveResult">OK</button>
-      </div>
-    </article>
-  </template>
-
-  <script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Prono World Cup Copains</title>
+<style>
+:root{--bg:#07101f;--card:#101a2f;--line:#263856;--txt:#f8fbff;--mut:#9fb0c9;--blue:#46a6ff;--gold:#ffce45;--green:#54df9a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#12325a,#07101f 45%,#050811);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+header{padding:18px 16px 12px;position:sticky;top:0;z-index:5;background:rgba(7,16,31,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}h1{margin:0;font-size:23px}.sub{color:var(--mut);font-size:13px;margin-top:4px}
+nav{display:flex;gap:8px;overflow:auto;padding:10px 16px;background:rgba(7,16,31,.94);position:sticky;top:69px;z-index:4;border-bottom:1px solid var(--line)}
+button{border:1px solid var(--line);background:#111d34;color:var(--txt);border-radius:14px;padding:10px 12px;font-weight:750}nav button.active,.primary{background:var(--gold);color:#231800;border-color:var(--gold)}
+main{max-width:1100px;margin:auto;padding:14px 14px 90px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.card{background:linear-gradient(180deg,rgba(17,29,52,.96),rgba(9,17,32,.96));border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 12px 30px rgba(0,0,0,.18);margin-bottom:12px}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:14px;margin:0 0 10px;color:#dce7ff}.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{text-align:center;border:1px solid var(--line);border-radius:16px;padding:12px;background:#0b1830}.big{font-size:25px;font-weight:900;color:var(--gold)}.mut{color:var(--mut)}.small{font-size:12px}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;background:#15233e;font-size:12px;color:#cfe0ff}
+.match{border:1px solid var(--line);border-radius:16px;padding:12px;background:#0c1629;margin-bottom:10px}.teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-top:8px}.team{font-weight:800}.away{text-align:right}.score{font-size:20px;font-weight:950;color:var(--gold)}.future{color:var(--blue)}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#081225;color:white;font-size:16px}label{display:block;margin:10px 0 5px;color:var(--mut);font-size:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+table{width:100%;border-collapse:collapse}td,th{padding:7px;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px}th{color:var(--mut);text-align:left}.pts{color:var(--gold);font-weight:900}.pos1,.pos2{border-left:3px solid var(--green)}.pos3{border-left:3px solid var(--gold)}
+.bracket{display:grid;grid-template-columns:repeat(5,220px);gap:12px;overflow:auto;padding-bottom:8px}.slot{border:1px dashed #35506f;border-radius:14px;padding:10px;margin-bottom:10px;background:#0b1528}.empty{text-align:center;color:var(--mut);padding:28px}
+</style></head><body><header><h1>🏆 Prono World Cup Copains</h1><div class="sub">Coupe du monde complète · drapeaux · groupes · calendrier · pronos locaux</div></header>
+<nav><button data-tab="overview" class="active">Vue coupe</button><button data-tab="matches">Matchs</button><button data-tab="groups">Groupes</button><button data-tab="bracket">Tableau</button><button data-tab="predictions">Pronos</button><button data-tab="ranking">Classement</button></nav><main id="app"></main>
+<script>
+const MATCHES=[[1, "2026-06-11 14:00", "A", "Mexico", "South Africa", "Mexico City Stadium", "Mexico City", 2, 0], [2, "2026-06-11 21:00", "A", "South Korea", "Czechia", "Estadio Guadalajara", "Zapopan", 2, 1], [3, "2026-06-12 14:00", "B", "Canada", "Bosnia and Herzegovina", "Toronto Stadium", "Toronto", 1, 1], [4, "2026-06-12 20:00", "D", "United States", "Paraguay", "Los Angeles Stadium", "Inglewood", 4, 1], [5, "2026-06-13 14:00", "B", "Qatar", "Switzerland", "San Francisco Bay Area Stadium", "Santa Clara", 1, 1], [6, "2026-06-13 17:00", "C", "Brazil", "Morocco", "New York New Jersey Stadium", "East Rutherford", 1, 1], [7, "2026-06-13 20:00", "C", "Haiti", "Scotland", "Boston Stadium", "Foxborough", 0, 1], [8, "2026-06-13 23:00", "D", "Australia", "Türkiye", "BC Place Vancouver", "Vancouver", 2, 0], [9, "2026-06-14 12:00", "E", "Germany", "Curaçao", "Houston Stadium", "Houston", 7, 1], [10, "2026-06-14 15:00", "F", "Netherlands", "Japan", "Dallas Stadium", "Arlington", 2, 2], [11, "2026-06-14 18:00", "E", "Côte d’Ivoire", "Ecuador", "Philadelphia Stadium", "Philadelphia", 1, 0], [12, "2026-06-14 21:00", "F", "Sweden", "Tunisia", "Estadio Monterrey", "Guadalupe", 5, 1], [13, "2026-06-15 11:00", "H", "Spain", "Cabo Verde", "Atlanta Stadium", "Atlanta", 0, 0], [14, "2026-06-15 14:00", "G", "Belgium", "Egypt", "Seattle Stadium", "Seattle", 1, 1], [15, "2026-06-15 17:00", "H", "Saudi Arabia", "Uruguay", "Miami Stadium", "Miami Gardens", 1, 1], [16, "2026-06-15 20:00", "G", "Iran", "New Zealand", "Los Angeles Stadium", "Inglewood", 2, 2], [17, "2026-06-16 14:00", "I", "France", "Senegal", "New York New Jersey Stadium", "East Rutherford", 3, 1], [18, "2026-06-16 17:00", "I", "Iraq", "Norway", "Boston Stadium", "Foxborough", 1, 4], [19, "2026-06-16 20:00", "J", "Argentina", "Algeria", "Kansas City Stadium", "Kansas City", 3, 0], [20, "2026-06-16 23:00", "J", "Austria", "Jordan", "San Francisco Bay Area Stadium", "Santa Clara", 3, 1], [21, "2026-06-17 12:00", "K", "Portugal", "DR Congo", "Houston Stadium", "Houston", 1, 1], [22, "2026-06-17 15:00", "L", "England", "Croatia", "Dallas Stadium", "Arlington", 4, 2], [23, "2026-06-17 18:00", "L", "Ghana", "Panama", "Toronto Stadium", "Toronto", 1, 0], [24, "2026-06-17 21:00", "K", "Uzbekistan", "Colombia", "Mexico City Stadium", "Mexico City", 1, 3], [25, "2026-06-18 11:00", "A", "Czechia", "South Africa", "Atlanta Stadium", "Atlanta", 1, 1], [26, "2026-06-18 14:00", "B", "Switzerland", "Bosnia and Herzegovina", "Los Angeles Stadium", "Inglewood", 4, 1], [27, "2026-06-18 17:00", "B", "Canada", "Qatar", "BC Place Vancouver", "Vancouver", 6, 0], [28, "2026-06-18 20:00", "A", "Mexico", "South Korea", "Estadio Guadalajara", "Zapopan", 1, 0], [29, "2026-06-19 14:00", "D", "United States", "Australia", "Seattle Stadium", "Seattle", 2, 0], [30, "2026-06-19 17:00", "C", "Scotland", "Morocco", "Boston Stadium", "Foxborough", 0, 1], [31, "2026-06-19 19:30", "C", "Brazil", "Haiti", "Philadelphia Stadium", "Philadelphia", 3, 0], [32, "2026-06-19 22:00", "D", "Türkiye", "Paraguay", "San Francisco Bay Area Stadium", "Santa Clara", 0, 1], [33, "2026-06-20 12:00", "F", "Netherlands", "Sweden", "Houston Stadium", "Houston", 5, 1], [34, "2026-06-20 15:00", "E", "Germany", "Côte d’Ivoire", "Toronto Stadium", "Toronto", 2, 1], [35, "2026-06-20 19:00", "E", "Ecuador", "Curaçao", "Kansas City Stadium", "Kansas City", 0, 0], [36, "2026-06-20 23:00", "F", "Tunisia", "Japan", "Estadio Monterrey", "Guadalupe", 0, 4], [37, "2026-06-21 11:00", "H", "Spain", "Saudi Arabia", "Atlanta Stadium", "Atlanta", null, null], [38, "2026-06-21 14:00", "G", "Belgium", "Iran", "Los Angeles Stadium", "Inglewood", null, null], [39, "2026-06-21 17:00", "H", "Uruguay", "Cabo Verde", "Miami Stadium", "Miami Gardens", null, null], [40, "2026-06-21 20:00", "G", "New Zealand", "Egypt", "BC Place Vancouver", "Vancouver", null, null], [41, "2026-06-22 12:00", "J", "Argentina", "Austria", "Dallas Stadium", "Arlington", null, null], [42, "2026-06-22 16:00", "I", "France", "Iraq", "Philadelphia Stadium", "Philadelphia", null, null], [43, "2026-06-22 19:00", "I", "Norway", "Senegal", "New York New Jersey Stadium", "East Rutherford", null, null], [44, "2026-06-22 22:00", "J", "Jordan", "Algeria", "San Francisco Bay Area Stadium", "Santa Clara", null, null], [45, "2026-06-23 12:00", "K", "Portugal", "Uzbekistan", "Houston Stadium", "Houston", null, null], [46, "2026-06-23 15:00", "L", "England", "Ghana", "Boston Stadium", "Foxborough", null, null], [47, "2026-06-23 18:00", "L", "Panama", "Croatia", "Toronto Stadium", "Toronto", null, null], [48, "2026-06-23 21:00", "K", "Colombia", "DR Congo", "Estadio Guadalajara", "Zapopan", null, null], [49, "2026-06-24 14:00", "B", "Switzerland", "Canada", "BC Place Vancouver", "Vancouver", null, null], [50, "2026-06-24 14:00", "B", "Bosnia and Herzegovina", "Qatar", "Seattle Stadium", "Seattle", null, null], [51, "2026-06-24 17:00", "C", "Scotland", "Brazil", "Miami Stadium", "Miami Gardens", null, null], [52, "2026-06-24 17:00", "C", "Morocco", "Haiti", "Atlanta Stadium", "Atlanta", null, null], [53, "2026-06-24 20:00", "A", "Czechia", "Mexico", "Mexico City Stadium", "Mexico City", null, null], [54, "2026-06-24 20:00", "A", "South Africa", "South Korea", "Estadio Monterrey", "Guadalupe", null, null], [55, "2026-06-25 15:00", "E", "Curaçao", "Côte d’Ivoire", "Philadelphia Stadium", "Philadelphia", null, null], [56, "2026-06-25 15:00", "E", "Ecuador", "Germany", "New York New Jersey Stadium", "East Rutherford", null, null], [57, "2026-06-25 18:00", "F", "Japan", "Sweden", "Dallas Stadium", "Arlington", null, null], [58, "2026-06-25 18:00", "F", "Tunisia", "Netherlands", "Kansas City Stadium", "Kansas City", null, null], [59, "2026-06-25 21:00", "D", "Türkiye", "United States", "Los Angeles Stadium", "Inglewood", null, null], [60, "2026-06-25 21:00", "D", "Paraguay", "Australia", "San Francisco Bay Area Stadium", "Santa Clara", null, null], [61, "2026-06-26 14:00", "I", "Norway", "France", "Boston Stadium", "Foxborough", null, null], [62, "2026-06-26 14:00", "I", "Senegal", "Iraq", "Toronto Stadium", "Toronto", null, null], [63, "2026-06-26 19:00", "H", "Cabo Verde", "Saudi Arabia", "Houston Stadium", "Houston", null, null], [64, "2026-06-26 19:00", "H", "Uruguay", "Spain", "Estadio Guadalajara", "Zapopan", null, null], [65, "2026-06-26 22:00", "G", "Egypt", "Iran", "Seattle Stadium", "Seattle", null, null], [66, "2026-06-26 22:00", "G", "New Zealand", "Belgium", "BC Place Vancouver", "Vancouver", null, null], [67, "2026-06-27 16:00", "L", "Panama", "England", "New York New Jersey Stadium", "East Rutherford", null, null], [68, "2026-06-27 16:00", "L", "Croatia", "Ghana", "Philadelphia Stadium", "Philadelphia", null, null], [69, "2026-06-27 18:30", "K", "Colombia", "Portugal", "Miami Stadium", "Miami Gardens", null, null], [70, "2026-06-27 18:30", "K", "DR Congo", "Uzbekistan", "Atlanta Stadium", "Atlanta", null, null], [71, "2026-06-27 21:00", "J", "Algeria", "Austria", "Kansas City Stadium", "Kansas City", null, null], [72, "2026-06-27 21:00", "J", "Jordan", "Argentina", "Dallas Stadium", "Arlington", null, null]];
+const FLAGS={"Mexico": "🇲🇽", "South Africa": "🇿🇦", "South Korea": "🇰🇷", "Czechia": "🇨🇿", "Canada": "🇨🇦", "Bosnia and Herzegovina": "🇧🇦", "United States": "🇺🇸", "Paraguay": "🇵🇾", "Qatar": "🇶🇦", "Switzerland": "🇨🇭", "Brazil": "🇧🇷", "Morocco": "🇲🇦", "Haiti": "🇭🇹", "Scotland": "🏴", "Australia": "🇦🇺", "Türkiye": "🇹🇷", "Germany": "🇩🇪", "Curaçao": "🇨🇼", "Netherlands": "🇳🇱", "Japan": "🇯🇵", "Côte d’Ivoire": "🇨🇮", "Ecuador": "🇪🇨", "Sweden": "🇸🇪", "Tunisia": "🇹🇳", "Spain": "🇪🇸", "Cabo Verde": "🇨🇻", "Belgium": "🇧🇪", "Egypt": "🇪🇬", "Saudi Arabia": "🇸🇦", "Uruguay": "🇺🇾", "Iran": "🇮🇷", "New Zealand": "🇳🇿", "France": "🇫🇷", "Senegal": "🇸🇳", "Iraq": "🇮🇶", "Norway": "🇳🇴", "Argentina": "🇦🇷", "Algeria": "🇩🇿", "Austria": "🇦🇹", "Jordan": "🇯🇴", "Portugal": "🇵🇹", "DR Congo": "🇨🇩", "England": "🏴", "Croatia": "🇭🇷", "Ghana": "🇬🇭", "Panama": "🇵🇦", "Uzbekistan": "🇺🇿", "Colombia": "🇨🇴"};
+const KEY="pwc_copains_v3";let db=JSON.parse(localStorage.getItem(KEY)||'{"players":["Edouard"],"predictions":[],"results":{}}');let tab="overview",filter="all";
+const save=()=>localStorage.setItem(KEY,JSON.stringify(db));const f=t=>FLAGS[t]||"🏳️";const fmt=d=>new Date(d.replace(" ","T")).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+const res=m=>{let r=db.results[m[0]];return r?[r.h===""?null:+r.h,r.a===""?null:+r.a]:[m[7],m[8]]};const isDone=m=>{let r=res(m);return r[0]!==null&&r[1]!==null&&!Number.isNaN(r[0])&&!Number.isNaN(r[1])};
+function points(p,m){let r=res(m);if(r[0]==null||r[1]==null)return 0;let ph=+p.h,pa=+p.a;if(ph===r[0]&&pa===r[1])return 3;let w=(h,a)=>h>a?'H':h<a?'A':'D';return w(ph,pa)===w(r[0],r[1])?1:0}
+function standings(g){let teams=[...new Set(MATCHES.filter(m=>m[2]===g).flatMap(m=>[m[3],m[4]]))].map(t=>({t,J:0,G:0,N:0,P:0,BP:0,BC:0,PTS:0}));let map=Object.fromEntries(teams.map(x=>[x.t,x]));MATCHES.filter(m=>m[2]===g&&isDone(m)).forEach(m=>{let r=res(m),H=map[m[3]],A=map[m[4]];H.J++;A.J++;H.BP+=r[0];H.BC+=r[1];A.BP+=r[1];A.BC+=r[0];if(r[0]>r[1]){H.G++;A.P++;H.PTS+=3}else if(r[0]<r[1]){A.G++;H.P++;A.PTS+=3}else{H.N++;A.N++;H.PTS++;A.PTS++}});return teams.sort((a,b)=>b.PTS-a.PTS||((b.BP-b.BC)-(a.BP-a.BC))||b.BP-a.BP)}
+function card(m){let r=res(m);return `<div class="match"><span class="pill">#${m[0]} · Groupe ${m[2]}</span> <span class="small mut">${fmt(m[1])} · ${m[5]}</span><div class="teams"><div class="team">${f(m[3])} ${m[3]}</div><div class="score">${isDone(m)?r[0]+" - "+r[1]:"vs"}</div><div class="team away">${m[4]} ${f(m[4])}</div></div><div class="small mut">${isDone(m)?"Terminé":"À venir"} · ${m[6]}</div></div>`}
+function groupTable(g){return `<div class="card"><h3>Groupe ${g}</h3><table><tr><th></th><th>Équipe</th><th>J</th><th>Diff</th><th>Pts</th></tr>${standings(g).map((r,i)=>`<tr class="pos${i+1}"><td>${i+1}</td><td>${f(r.t)} ${r.t}</td><td>${r.J}</td><td>${r.BP-r.BC}</td><td class="pts">${r.PTS}</td></tr>`).join("")}</table></div>`}
+function renderOverview(){let done=MATCHES.filter(isDone).length;app.innerHTML=`<div class="statrow"><div class="stat"><div class="big">104</div><div class="small mut">matchs</div></div><div class="stat"><div class="big">48</div><div class="small mut">équipes</div></div><div class="stat"><div class="big">${done}</div><div class="small mut">joués</div></div><div class="stat"><div class="big">${72-done}</div><div class="small mut">groupe à venir</div></div></div><section class="card"><h2>Prochains matchs</h2>${MATCHES.filter(m=>!isDone(m)).slice(0,8).map(card).join("")}</section><section class="card"><h2>Groupes</h2><div class="grid">${"ABCDEFGHIJKL".split("").map(groupTable).join("")}</div></section>`}
+function renderGroups(){app.innerHTML=`<div class="grid">${"ABCDEFGHIJKL".split("").map(groupTable).join("")}</div>`}
+function renderMatches(){let opts=["all","done","future"].concat("ABCDEFGHIJKL".split(""));let list=MATCHES.filter(m=>filter==="all"||(filter==="done"&&isDone(m))||(filter==="future"&&!isDone(m))||m[2]===filter);app.innerHTML=`<section class="card"><h2>Tous les matchs</h2><select onchange="filter=this.value;render()">${opts.map(o=>`<option value="${o}" ${filter===o?"selected":""}>${o==="all"?"Tous":o==="done"?"Terminés":o==="future"?"À venir":"Groupe "+o}</option>`).join("")}</select></section>${list.map(m=>`<div class="card">${card(m)}<div class="row"><div><label>Résultat équipe 1</label><input type="number" value="${res(m)[0]??''}" onchange="setRes(${m[0]},'h',this.value)"></div><div><label>Résultat équipe 2</label><input type="number" value="${res(m)[1]??''}" onchange="setRes(${m[0]},'a',this.value)"></div></div></div>`).join("")}`}
+function setRes(id,k,v){db.results[id]=db.results[id]||{};db.results[id][k]=v;save();render()}
+function renderBracket(){app.innerHTML=`<section class="card"><h2>Phase finale</h2><div class="bracket">${["1/32 finale","1/16 finale","1/4 finale","1/2 finale","Finale"].map((r,i)=>`<div><h3>${r}</h3>${Array.from({length:i?Math.max(1,8/Math.pow(2,i-1)):16},(_,n)=>`<div class="slot">Match ${i?72+i*20+n+1:73+n}<br><span class="mut">À déterminer après les groupes</span></div>`).join("")}</div>`).join("")}</div></section>`}
+function renderPredictions(){app.innerHTML=`<section class="card"><h2>Joueurs</h2><div class="row"><input id="newp" placeholder="Nom du copain"><button class="primary" onclick="addPlayer()">Ajouter</button></div><p class="mut small">${db.players.join(" · ")}</p></section><section class="card"><h2>Ajouter un prono</h2><label>Joueur</label><select id="player">${db.players.map(p=>`<option>${p}</option>`).join("")}</select><label>Match</label><select id="match">${MATCHES.map(m=>`<option value="${m[0]}">#${m[0]} · ${f(m[3])} ${m[3]} - ${m[4]} ${f(m[4])}</option>`).join("")}</select><div class="row"><div><label>Score équipe 1</label><input id="ph" type="number"></div><div><label>Score équipe 2</label><input id="pa" type="number"></div></div><button class="primary" onclick="addPred()">Enregistrer</button></section><section class="card"><h2>Pronos</h2>${db.predictions.length?db.predictions.map(p=>{let m=MATCHES.find(x=>x[0]==p.match);return `<div class="match"><b>${p.player}</b> · #${p.match} ${f(m[3])} ${m[3]} - ${m[4]} ${f(m[4])}<div class="score">${p.h} - ${p.a} <span class="pill">${points(p,m)} pt</span></div></div>`}).join(""):'<div class="empty">Aucun prono.</div>'}</section>`}
+function addPlayer(){let n=newp.value.trim();if(n&&!db.players.includes(n)){db.players.push(n);save();render()}}
+function addPred(){let old=db.predictions.find(p=>p.player===player.value&&p.match==match.value);if(old){old.h=ph.value;old.a=pa.value}else db.predictions.push({player:player.value,match:+match.value,h:ph.value,a:pa.value});save();render()}
+function renderRanking(){let rows=db.players.map(p=>({p,n:db.predictions.filter(x=>x.player===p).length,pts:db.predictions.filter(x=>x.player===p).reduce((s,x)=>s+points(x,MATCHES.find(m=>m[0]==x.match)),0)})).sort((a,b)=>b.pts-a.pts);app.innerHTML=`<section class="card"><h2>Classement des copains</h2><table><tr><th>#</th><th>Joueur</th><th>Pronos</th><th>Pts</th></tr>${rows.map((r,i)=>`<tr><td>${i+1}</td><td><b>${r.p}</b></td><td>${r.n}</td><td class="pts">${r.pts}</td></tr>`).join("")}</table><p class="mut small">Score exact = 3 pts · bon vainqueur/nul = 1 pt.</p></section>`}
+function render(){if(tab==="overview")renderOverview();if(tab==="matches")renderMatches();if(tab==="groups")renderGroups();if(tab==="bracket")renderBracket();if(tab==="predictions")renderPredictions();if(tab==="ranking")renderRanking()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()});render();
+</script></body></html>
