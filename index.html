@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101827" />
+  <title>Prono World Cup Copains</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">Pronos entre copains</p>
+      <h1>World Cup Copains</h1>
+    </div>
+    <button id="installBtn" hidden>Installer</button>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="matches">Matchs</button>
+    <button class="tab" data-view="pronostics">Pronos</button>
+    <button class="tab" data-view="ranking">Classement</button>
+    <button class="tab" data-view="settings">Données</button>
+  </nav>
+
+  <main>
+    <section id="matches" class="view active">
+      <div class="card">
+        <h2>Ajouter un match</h2>
+        <form id="matchForm" class="grid">
+          <input id="teamA" placeholder="Équipe A" required />
+          <input id="teamB" placeholder="Équipe B" required />
+          <input id="matchDate" type="datetime-local" />
+          <button type="submit">Ajouter</button>
+        </form>
+      </div>
+      <div id="matchList"></div>
+    </section>
+
+    <section id="pronostics" class="view">
+      <div class="card">
+        <h2>Ajouter un prono</h2>
+        <form id="pickForm" class="grid">
+          <input id="playerName" placeholder="Nom du copain" required />
+          <select id="matchSelect" required></select>
+          <div class="score-row">
+            <input id="pickA" type="number" min="0" placeholder="Score A" required />
+            <input id="pickB" type="number" min="0" placeholder="Score B" required />
+          </div>
+          <button type="submit">Enregistrer</button>
+        </form>
+      </div>
+      <div id="pickList"></div>
+    </section>
+
+    <section id="ranking" class="view">
+      <div class="card">
+        <h2>Règles</h2>
+        <p>Score exact : 3 pts · Bon vainqueur ou nul : 1 pt · Mauvais résultat : 0 pt.</p>
+      </div>
+      <div id="rankingList"></div>
+    </section>
+
+    <section id="settings" class="view">
+      <div class="card">
+        <h2>Sauvegarde</h2>
+        <button id="exportBtn">Exporter les données</button>
+        <label class="fileLabel">Importer JSON<input id="importFile" type="file" accept="application/json" /></label>
+        <button id="resetBtn" class="danger">Tout effacer</button>
+      </div>
+      <div class="card">
+        <h2>Important</h2>
+        <p>Cette V1 stocke les données sur ce téléphone. Pour une vraie ligue partagée entre copains, il faudra brancher une base en ligne.</p>
+      </div>
+    </section>
+  </main>
+
+  <template id="matchTemplate">
+    <article class="card match-card">
+      <div class="row between">
+        <div>
+          <h3></h3>
+          <p class="muted date"></p>
+        </div>
+        <button class="small delete">Supprimer</button>
+      </div>
+      <div class="resultBox">
+        <span>Résultat réel</span>
+        <input class="realA" type="number" min="0" placeholder="A" />
+        <input class="realB" type="number" min="0" placeholder="B" />
+        <button class="small saveResult">OK</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
